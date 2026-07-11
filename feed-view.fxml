@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefWidth="1000.0" prefHeight="750.0" xmlns="http://javafx.com" xmlns:fx="http://javafx.com" fx:controller="com.videoformat.videoformat.FeedController">
+    <children>
+        <!-- ВЕРХНЕЕ МЕНЮ С ПОЛЕМ ПОИСКА -->
+        <HBox prefHeight="60.0" alignment="CENTER_LEFT" spacing="15.0" styleClass="top-menu-bar" style="-fx-padding: 10 20 10 20;">
+            <children>
+                <Label text="VideoFormat"><font><Font name="System Bold" size="20.0" /></font></Label>
+                <TextField fx:id="searchField" promptText="🔍 Поиск видео по названиям..." style="-fx-background-radius: 20; -fx-padding: 6 15 6 15; -fx-pref-width: 250;"/>
+                <Button fx:id="menuHomeButton" text="🏠 Главная" onAction="#showHomeSection" style="-fx-padding: 8 15 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button fx:id="menuShortsButton" text="🎬 Короткие ролики" onAction="#showShortsSection" style="-fx-padding: 8 15 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button fx:id="menuProfileButton" text="👤 Мой профиль" onAction="#showProfileSection" style="-fx-padding: 8 15 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </children>
+        </HBox>
+
+        <!-- ЗОНА ОСНОВНОГО КОНТЕНТА -->
+        <HBox VBox.vgrow="ALWAYS">
+            <children>
+                <StackPane fx:id="mainContentPane" HBox.hgrow="ALWAYS" styleClass="main-content-area">
+                    <children>
+                        <!-- Раздел: Главная -->
+                        <ScrollPane fx:id="homeSection" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" visible="true">
+                            <content>
+                                <VBox spacing="15.0" style="-fx-padding: 25; -fx-background-color: transparent;">
+                                    <children>
+                                        <Label text="Рекомендации для вас"><font><Font name="System Bold" size="20.0" /></font></Label>
+                                        <GridPane fx:id="videoGrid" hgap="20.0" vgap="20.0" />
+                                    </children>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                        <!-- Раздел: Короткие видео (Шортсы) -->
+                        <StackPane fx:id="shortsSection" visible="false" style="-fx-background-color: transparent;">
+                            <children>
+                                <HBox alignment="CENTER" spacing="15.0" style="-fx-background-color: transparent;">
+                                    <children>
+                                        <!-- Видео-плеер шортса -->
+                                        <MediaView fx:id="mediaView" fitWidth="500.0" fitHeight="450.0" preserveRatio="true"/>
+
+                                        <!-- Скрытая боковая панель отзывов -->
+                                        <VBox fx:id="shortsCommentsPanel" prefWidth="260.0" visible="false" managed="false" styleClass="comments-panel" style="-fx-background-radius: 8; -fx-padding: 12;" spacing="10.0">
+                                            <children>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                    <children>
+                                                        <Label text="💬 Комментарии" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                                            <font><Font name="System Bold" size="14.0" /></font>
+                                                        </Label>
+                                                        <Button text="❌" onAction="#hideCommentsPanel" style="-fx-background-color: transparent; -fx-text-fill: #f38ba8; -fx-cursor: hand; -fx-font-weight: bold; -fx-padding: 2;"/>
+                                                    </children>
+                                                </HBox>
+
+                                                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-hbar-policy: never; -fx-vbar-policy: AS_NEEDED;">
+                                                    <content>
+                                                        <VBox fx:id="shortsCommentsContainer" spacing="8.0" style="-fx-background-color: transparent;" />
+                                                    </content>
+                                                </ScrollPane>
+
+                                                <HBox spacing="6.0" alignment="CENTER">
+                                                    <children>
+                                                        <TextField fx:id="shortsCommentField" promptText="Написать отзыв..." HBox.hgrow="ALWAYS" style="-fx-background-radius: 6; -fx-padding: 6 10 6 10;"/>
+                                                        <Button fx:id="sendShortsCommentButton" text="🕊️" onAction="#onSendShortsCommentClick" style="-fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 6 10 6 10;"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </StackPane>
+
+                        <!-- Раздел: Мой Профиль -->
+                        <ScrollPane fx:id="profileSection" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" visible="false">
+                            <content>
+                                <VBox spacing="25.0" style="-fx-padding: 30; -fx-background-color: transparent;">
+                                    <children>
+                                        <!-- КАРТОЧКА ПОЛЬЗОВАТЕЛЯ -->
+                                        <HBox spacing="25.0" alignment="CENTER_LEFT" styleClass="profile-card" style="-fx-padding: 20; -fx-background-radius: 10;">
+                                            <children>
+                                                <StackPane fx:id="profileAvatarContainer" maxWidth="100" maxHeight="100">
+                                                    <children>
+                                                        <ImageView fx:id="profileAvatarImageView" fitWidth="100.0" fitHeight="100.0" pickOnBounds="true" preserveRatio="true" />
+                                                    </children>
+                                                </StackPane>
+                                                <VBox spacing="5.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <Label fx:id="profileNameLabel" text="Имя"><font><Font name="System Bold" size="24.0" /></font></Label>
+                                                        <Label fx:id="profileTagLabel" text="#tag"><font><Font name="System Bold" size="16.0" /></font></Label>
+                                                        <Label fx:id="profileAgeLabel" text="Возраст: --" />
+                                                    </children>
+                                                </VBox>
+
+                                                <HBox spacing="10.0">
+                                                    <children>
+                                                        <Button text="🕒 Просмотренные" onAction="#toggleHistoryPanel" style="-fx-padding: 10 15; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;"/>
+                                                        <Button text="🎨 Кастомизация" onAction="#toggleThemePanel" style="-fx-padding: 10 15; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </HBox>
+
+                                        <!-- ПАНЕЛЬ МОИХ ПОДПИСОК -->
+                                        <VBox spacing="10.0" styleClass="settings-panel" style="-fx-padding: 15; -fx-background-radius: 10;">
+                                            <children>
+                                                <Label text="🔔 Мои подписки (Авторы)">
+                                                    <font><Font name="System Bold" size="16.0" /></font>
+                                                </Label>
+                                                <ScrollPane fitToHeight="true" vbarPolicy="NEVER" hbarPolicy="AS_NEEDED" style="-fx-background-color: transparent; -fx-background: transparent;">
+                                                    <content>
+                                                        <HBox fx:id="subscriptionsContainer" spacing="15.0" alignment="CENTER_LEFT" style="-fx-padding: 5 0 5 0;" />
+                                                    </content>
+                                                </ScrollPane>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- СКРЫТАЯ ПАНЕЛЬ ИСТОРИИ ПРОСМОТРОВ -->
+                                        <VBox fx:id="historyPanel" visible="false" managed="false" spacing="15.0" styleClass="settings-panel" style="-fx-padding: 20; -fx-background-radius: 10;">
+                                            <children>
+                                                <Label text="🕒 Моя история просмотров (Конфиденциально)">
+                                                    <font><Font name="System Bold" size="16.0" /></font>
+                                                </Label>
+                                                <GridPane fx:id="historyVideoGrid" hgap="20.0" vgap="20.0" />
+                                            </children>
+                                        </VBox>
+                                        <!-- НОВЫЙ ИНТЕРАКТИВНЫЙ МОДУЛЬ ЗАГРУЗКИ (СТУДИЯ) -->
+                                        <VBox spacing="15.0" styleClass="settings-panel" style="-fx-padding: 20; -fx-background-radius: 10;">
+                                            <children>
+                                                <Label text="🎬 Студия создания контента VideoFormat">
+                                                    <font><Font name="System Bold" size="16.0" /></font>
+                                                </Label>
+
+                                                <HBox spacing="15.0" alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Button fx:id="selectShortTypeBtn" text="📱 Короткое видео (до 4 мин)" onAction="#handleSelectShortType" style="-fx-padding: 8 12; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
+                                                        <Button fx:id="selectLongTypeBtn" text="📺 Длинное видео (до 5 часов)" onAction="#handleSelectLongType" style="-fx-padding: 8 12; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
+                                                    </children>
+                                                </HBox>
+
+                                                <StackPane fx:id="dropZoneContainer" prefHeight="120.0" style="-fx-border-color: #cba6f7; -fx-border-width: 2; -fx-border-style: dashed; -fx-border-radius: 8; -fx-background-color: #1e1e2e; -fx-background-radius: 8;">
+                                                    <children>
+                                                        <VBox alignment="CENTER" spacing="8.0">
+                                                            <children>
+                                                                <Label fx:id="dropZoneStatusLabel" text="Сначала выберите тип видео выше" textFill="#a6adc8" wrapText="true" textAlignment="CENTER">
+                                                                    <font><Font size="13.0" /></font>
+                                                                </Label>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </StackPane>
+
+                                                <Button fx:id="publishVideoBtn" text="🚀 Опубликовать видео на сервере" onAction="#handlePublishVideo" disable="true" prefWidth="Infinity" style="-fx-padding: 10; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- ПАНЕЛЬ СКРЫТОЙ КАСТОМИЗАЦИИ ТЕМ -->
+                                        <VBox fx:id="themePanel" visible="false" managed="false" spacing="12.0" styleClass="settings-panel" style="-fx-padding: 20; -fx-background-radius: 10;">
+                                            <children>
+                                                <Label text="Выбери сочный стиль для VideoFormat:">
+                                                    <font><Font name="System Bold" size="14.0" /></font>
+                                                </Label>
+                                                <HBox spacing="15.0" alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Button text="🍅 Томат" onAction="#selectDefaultTheme" style="-fx-background-color: #8B0000; -fx-text-fill: white; -fx-cursor: hand; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 5;"/>
+                                                        <Button text="🍆 Черника" onAction="#selectBlueberryTheme" style="-fx-background-color: #2B579A; -fx-text-fill: #70FFDB; -fx-cursor: hand; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 5;"/>
+                                                        <Button text="🍋 Лимон" onAction="#selectLemonTheme" style="-fx-background-color: #FFDE17; -fx-text-fill: #222222; -fx-cursor: hand; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 5;"/>
+                                                        <Button text="🍒 Брусника" onAction="#selectLingonberryTheme" style="-fx-background-color: #FF0033; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 5;"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- ЛЕНТА ЛИЧНЫХ ПУБЛИКАЦИЙ -->
+                                        <VBox spacing="15.0">
+                                            <children>
+                                                <Label text="Мои публикации (Влоги)"><font><Font name="System Bold" size="18.0" /></font></Label>
+                                                <GridPane fx:id="myVideoGrid" hgap="20.0" vgap="20.0" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                        <!-- Плеер для длинных видео -->
+                        <VBox fx:id="longVideoPlayerSection" spacing="10.0" styleClass="profile-card" style="-fx-padding: 15;" visible="false">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <children>
+                                        <Button text="⬅ Назад" onAction="#closeLongVideoPlayer" style="-fx-padding: 6 12 6 12; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                                        <Label fx:id="longVideoTitleLabel" text="Название"><font><Font name="System Bold" size="16.0" /></font></Label>
+                                    </children>
+                                </HBox>
+                                <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: #000000; -fx-background-radius: 6;">
+                                    <children>
+                                        <MediaView fx:id="longMediaView" fitWidth="700.0" fitHeight="400.0" preserveRatio="true"/>
+                                    </children>
+                                </StackPane>
+                                <HBox alignment="CENTER" spacing="15.0" styleClass="settings-panel" style="-fx-padding: 10; -fx-background-radius: 6;">
+                                    <children>
+                                        <Button fx:id="playPauseButton" text="⏸ Пауза" onAction="#handlePlayPause" style="-fx-cursor: hand; -fx-background-radius: 5;"/>
+                                        <Button fx:id="saveVideoButton" text="📥 Сохранить" onAction="#handleSaveCurrentVideo" style="-fx-cursor: hand; -fx-background-radius: 5;"/>
+                                        <Button fx:id="longVideoLikeButton" text="❤️ Лайк" onAction="#handleLongVideoLike" style="-fx-cursor: hand; -fx-background-radius: 5;"/>
+                                        <Button fx:id="longVideoSubscribeButton" text="🔔 Подписаться" onAction="#handleLongVideoSubscribe" style="-fx-cursor: hand; -fx-background-radius: 5;"/>
+                                        <Label text="Время:"><font><Font size="11.0"/></font></Label>
+                                        <Slider fx:id="timeSlider" HBox.hgrow="ALWAYS" style="-fx-cursor: hand;"/>
+                                        <Label text="🔊"/>
+                                        <Slider fx:id="volumeSlider" prefWidth="100.0" max="1.0" value="0.5" style="-fx-cursor: hand;"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </StackPane>
+
+                <!-- Боковая панель шортсов -->
+                <VBox fx:id="rightActionPanel" prefWidth="160.0" alignment="TOP_CENTER" spacing="25.0" visible="false" styleClass="top-menu-bar" style="-fx-padding: 25 20 25 20;">
+                    <children>
+                        <Label text="Автор:"/>
+                        <Label fx:id="authorLabel" text="\\@nature" textFill="#cba6f7" wrapText="true"><font><Font name="System Bold" size="14.0" /></font></Label>
+                        <Button fx:id="likeButton" text="❤️ Лайк" onAction="#handleLike" prefWidth="Infinity" style="-fx-background-radius: 5; -fx-padding: 10; -fx-cursor: hand;"/>
+                        <Button fx:id="shortsSubscribeButton" text="🔔 Подписаться" onAction="#handleShortsSubscribe" prefWidth="Infinity" style="-fx-background-radius: 5; -fx-padding: 10; -fx-cursor: hand;"/>
+                        <Button text="💬 Отзывы" onAction="#showCommentsPanel" prefWidth="Infinity" style="-fx-background-radius: 5; -fx-padding: 10; -fx-cursor: hand;"/>
+                        <Button text="➡️ Дальше" onAction="#handleNextVideo" prefWidth="Infinity" style="-fx-background-radius: 5; -fx-padding: 12; -fx-cursor: hand;"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <!-- ВНЕШНЯЯ ПЛОСКАЯ РУЧКА ДЛЯ ПЕРЕТАСКИВАНИЯ -->
+        <HBox fx:id="downloadDragHandle" alignment="CENTER" prefHeight="8.0" style="-fx-cursor: v-resize; -fx-background-color: transparent; -fx-padding: 2 0 2 0;">
+            <children>
+                <StackPane prefWidth="120.0" prefHeight="4.0" style="-fx-background-color: #45475a; -fx-background-radius: 2; -fx-opacity: 0.6;" />
+            </children>
+        </HBox>
+
+        <VBox fx:id="downloadedVideoPanel" prefHeight="150.0" minHeight="0.0" styleClass="bottom-panel" style="-fx-padding: 10 20 10 20; -fx-border-color: #313244; -fx-border-width: 1 0 0 0;">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Label text="⬇ Скачанные video (Локальные файлы)" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                            <font><Font name="System Bold" size="14.0" /></font>
+                        </Label>
+                        <Button text="🗑️ Очистить дубликаты" onAction="#handleClearAllDuplicates" style="-fx-padding: 4 10; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    </children>
+                    <VBox.margin><Insets bottom="8.0" /></VBox.margin>
+                </HBox>
+
+                <ScrollPane fitToHeight="true" vbarPolicy="NEVER" hbarPolicy="AS_NEEDED" style="-fx-background-color: transparent; -fx-background: transparent;">
+                    <content>
+                        <GridPane fx:id="downloadedVideoGrid" hgap="15.0" vgap="0.0" alignment="CENTER_LEFT" style="-fx-background-color: transparent;" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </children>
+</VBox>
